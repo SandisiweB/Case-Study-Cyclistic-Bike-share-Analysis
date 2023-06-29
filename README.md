@@ -60,19 +60,23 @@ The data change and manipulation will be performed using Structured Query Langua
 
 The documentation and cleaning process:
 
-[Click here]() for Cyclitic bike-sharing changelog documentation
+[Click here](https://github.com/SandisiweB/Case-Study-Cyclistic-Bike-share-Analysis/blob/main/Data%20Cleaning%20Changelog.docx) for Cyclitic bike-sharing changelog documentation
 
 
 # Analysis Phase
 
 aggregation and analysis.
 
-[Click here](https://github.com/SandisiweB/Case-Study-Cyclistic-Bike-share-Analysis/blob/main/SQL%20Analysis) for an initial Cyclitic bike-sharing  analysis, which was performed on SQL
-Click here for further analysis, which was performed on Tableau
-Click here for analysis summary documentation
-Share Phase
+[Click here](https://github.com/SandisiweB/Case-Study-Cyclistic-Bike-share-Analysis/blob/main/SQL%20Analysis) for an initial Cyclitic bike-sharing  analysis, which was performed on SQL.
+
+[Click here](https://public.tableau.com/app/profile/sandisiwe.gugulethu.buthelezi/viz/CycliticBike-sharingserviceanalysisAcasestudy/AverageRideLengthvsAverageRideDistance) for further analysis, which was performed on Tableau.
+
+[Click here](https://github.com/SandisiweB/Case-Study-Cyclistic-Bike-share-Analysis/blob/main/Cyclistic%20Bike-Share_%20Analysis%20Summary%20(1).docx) for analysis summary documentation.
+
+# Share and Act Phase
 Microsoft PowerPoint is used for data visualization and for presenting key insights.
-Click here to download the presentation.
+
+[Click here](https://github.com/SandisiweB/Case-Study-Cyclistic-Bike-share-Analysis/blob/main/A%20Cyclistic%20Bike-Share%20Study%20presetantion.pptx) to download the presentation.
 
 ## Recommendations
 **1. Offer Incentives for Conversion**
@@ -102,3 +106,8 @@ Showcasing the widely available docking stations and availability of bikes in va
 -Receives notification of the  discounts and other benefits of the seasons. 
 
 The app will not only enhance the user experience but also proactively engage with casual riders to understand their needs, preferences, and concerns 
+
+
+**THE END!**
+
+**THANK YOU**
