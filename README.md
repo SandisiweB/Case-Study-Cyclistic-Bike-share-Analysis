@@ -56,17 +56,18 @@ A strong analysis depends on the integrity of the data. The following steps were
 
 The data change and manipulation will be performed using Structured Query Language (SQL).
 
-[Click here] for Cyclitic bike-sharing change and manipulation SQL.sql
+[Click here](https://github.com/SandisiweB/Case-Study-Cyclistic-Bike-share-Analysis/blob/main/SQL%20data%20cleaning%20and%20manipulation.) for Cyclitic bike-sharing change and manipulation SQL.sql
 
 The documentation and cleaning process:
-[Click here] for Cyclitic bike-sharing changelog documentation
+
+[Click here]() for Cyclitic bike-sharing changelog documentation
 
 
 # Analysis Phase
 
 aggregation and analysis.
 
-Click here for an initial Cyclitic bike-sharing  analysis, which was performed on SQL
+[Click here](https://github.com/SandisiweB/Case-Study-Cyclistic-Bike-share-Analysis/blob/main/SQL%20Analysis) for an initial Cyclitic bike-sharing  analysis, which was performed on SQL
 Click here for further analysis, which was performed on Tableau
 Click here for analysis summary documentation
 Share Phase
