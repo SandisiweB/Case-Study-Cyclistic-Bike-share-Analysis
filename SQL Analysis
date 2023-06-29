@@ -1,0 +1,245 @@
+/*
+
+SQL ANALYSIS of Cyclistic Bike-Sharing
+
+*/
+USE BikeShare;
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
+--combining all 12 tables into one temporary table 
+
+WITH tripdata_2022 AS (
+SELECT * FROM tripdata_202201
+UNION
+SELECT * FROM tripdata_202202
+UNION
+SELECT * FROM tripdata_202203
+UNION
+SELECT * FROM tripdata_202204
+UNION
+SELECT * FROM tripdata_202205
+UNION
+SELECT * FROM tripdata_202206
+UNION
+SELECT * FROM tripdata_202207
+UNION
+SELECT * FROM tripdata_202208
+UNION
+SELECT * FROM tripdata_202209
+UNION
+SELECT * FROM tripdata_202210
+UNION
+SELECT * FROM tripdata_202211
+UNION
+SELECT * FROM tripdata_202212
+)
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+
+--User type breakdown
+/*
+SELECT member_casual ,COUNT(member_casual) AS count_users --Count of bike user for the year of 2022
+FROM tripdata_2022
+WHERE member_casual IS NOT NULL;
+*/
+
+/*
+SELECT 
+  member_casual,
+  COUNT(*) AS count_membertype --User Type Distribution: count of members and casual riders
+FROM tripdata_2022
+WHERE member_casual IS NOT NULL
+GROUP BY member_casual;
+*/
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+--Total trips: The total number of bike trips recorded in the dataset by each user type
+
+/*
+select member_casual ,count(trip_route) from tripdata_2022 --trip count by each user type
+where trip_route IS NOT NULL
+GROUP BY member_casual;
+*/
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
+--Popular rideable type: the most preferred or used kind of bike
+
+/*SELECT 
+  member_casual,
+  rideable_type,
+  COUNT(rideable_type) AS count_rideable_type
+FROM tripdata_2022
+GROUP BY member_casual, rideable_type;*/
+
+/*
+SELECT 
+  member_casual,
+  rideable_type,
+  COUNT(rideable_type) AS count_rideable_type
+FROM tripdata_2022
+WHERE rideable_type IS NOT NULL
+GROUP BY member_casual, rideable_type
+ORDER BY member_casual, rideable_type;
+*/
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+--Popular stations: The stations with the highest number of trips originating or ending
+
+/*
+SELECT TOP 10 start_station_name, COUNT(start_station_name) AS count_popular_station
+FROM tripdata_2022
+WHERE start_station_name IS NOT NULL -- Exclude rows where start_station_name is NULL
+GROUP BY start_station_name
+ORDER BY count_popular_station DESC;
+*/
+
+/*
+SELECT member_casual, start_station_name, count_popular_station
+FROM (
+  SELECT 
+    member_casual,
+    start_station_name,
+    COUNT(*) AS count_popular_station,
+    ROW_NUMBER() OVER (PARTITION BY member_casual ORDER BY COUNT(*) DESC) AS rn -- assigning a ranking to each start station within each user type based on the count of trips
+  FROM tripdata_2022
+  WHERE start_station_name IS NOT NULL
+  GROUP BY member_casual, start_station_name
+) AS subquery
+WHERE rn = 1;
+*/
+
+/* --Determine the most popular ending stations based on the frequency of trips ending at each station.
+SELECT member_casual, end_station_name, count_popular_station
+FROM (
+  SELECT 
+    member_casual,
+    end_station_name,
+    COUNT(*) AS count_popular_station,
+    ROW_NUMBER() OVER (PARTITION BY member_casual ORDER BY COUNT(*) DESC) AS rn -- assigning a ranking to each start station within each user type based on the count of trips
+  FROM tripdata_2022
+  WHERE end_station_name IS NOT NULL
+  GROUP BY member_casual, end_station_name
+) AS subquery
+WHERE rn = 1;
+*/
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+--Peak hours: The time periods with the highest bike trip volumes
+
+/*
+SELECT 
+  TOP 1 
+  DATEPART(HOUR, started_at) AS peak_hours, --finding the mode, we are interested in the hour(s) with the highest trip count.
+  COUNT(*) AS trip_count
+FROM tripdata_2022
+GROUP BY DATEPART(HOUR, started_at)
+ORDER BY trip_count DESC;
+*/
+
+/*
+SELECT member_casual, peak_hours, trip_count
+FROM
+(
+SELECT 
+ member_casual,
+ DATEPART(HOUR, started_at) AS peak_hours, --finding the mode, we are interested in the hour(s) with the highest trip count  for each user type.
+ COUNT(*) AS trip_count,
+ ROW_NUMBER() OVER (PARTITION BY member_casual ORDER BY COUNT(*) DESC) AS hr
+FROM tripdata_2022
+WHERE started_at IS NOT NULL
+GROUP BY DATEPART(HOUR, started_at), member_casual
+) AS subquery
+WHERE hr = 1
+*/
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+--Days of the week: 
+
+/*
+SELECT 
+  member_casual,
+  AVG(day_of_week) AS AVG_day_of_week --finding mean: It represents the average day of trips per year in the dataset by each user type.
+FROM tripdata_2022
+GROUP BY member_casual;
+*/
+
+
+SELECT member_casual, day_of_week, most_used_day
+FROM
+(
+SELECT --Finding mode: It represents the typically or commonly occurring day of trips by each user type.
+  member_casual,
+  day_of_week,
+  COUNT (*) AS most_used_day ,
+  ROW_NUMBER() OVER (PARTITION BY member_casual ORDER BY COUNT(*) DESC) AS dy
+FROM tripdata_2022
+GROUP BY day_of_week, member_casual
+) AS subquery
+WHERE dy = 1;
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+--Trip duration: 
+/*
+SELECT
+  member_casual,
+  AVG(ride_length) AS AVG_ride_length --Mean: It represents the average duration of bike trips by each user type.
+FROM tripdata_2022
+GROUP BY member_casual;
+*/
+
+/*
+SELECT member_casual, ride_length, count_ride_length
+FROM
+(
+ SELECT
+  member_casual,
+  ride_length,
+  COUNT(*) AS count_ride_length,
+  ROW_NUMBER() OVER (PARTITION BY member_casual ORDER BY COUNT(*) DESC) AS md--Mode: It represents the most frequent or commonly occurring trip duration.
+ FROM tripdata_202201
+ WHERE ride_length IS NOT NULL
+ GROUP BY member_casual, ride_length
+) AS subquery
+WHERE md = 1;
+*/
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+--Route Analysis:
+/*
+SELECT member_casual, trip_route
+FROM (
+SELECT --the most common routes based on start and end latitude/longitude,
+	member_casual,
+	trip_route,
+    COUNT(*) AS route_count,
+	ROW_NUMBER () OVER (PARTITION BY member_casual ORDER BY COUNT(*) DESC) AS tr
+FROM tripdata_2022
+WHERE trip_route IS NOT NULL
+GROUP BY trip_route, member_casual
+) AS subquery
+WHERE tr  = 1
+*/
+
+/*SELECT -- areas where bike sharing services are frequently used
+    TOP 10
+    start_lat,
+    start_lng,
+    COUNT(*) AS usage_count
+FROM
+    tripdata_202201
+GROUP BY
+    start_lat,
+    start_lng
+ORDER BY
+    usage_count DESC*/
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------
