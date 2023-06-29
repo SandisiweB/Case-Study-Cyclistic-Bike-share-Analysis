@@ -1,0 +1,615 @@
+/*
+Data Cleaning amd manipulation of Cyclistic Bike-Share
+*/
+
+USE BikeShare;
+SELECT * FROM tripdata_202205;
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+--Verifying if all field data type matches across all 12 tables
+
+SELECT  TABLE_NAME, COLUMN_NAME, DATA_TYPE
+FROM INFORMATION_SCHEMA.COLUMNS
+WHERE TABLE_NAME IN (  'tripdata_202201', 'tripdata_202202', 'tripdata_202203', 'tripdata_202204', 'tripdata_202205', 'tripdata_202206',
+'tripdata_202207', 'tripdata_202208', 'tripdata_202209', 'tripdata_202210', 'tripdata_202211', 'tripdata_202212')
+GROUP BY TABLE_NAME, COLUMN_NAME, DATA_TYPE
+HAVING  COUNT(DISTINCT DATA_TYPE) = 1
+ORDER BY COLUMN_NAME;
+
+
+--Updating inconsistent field data type
+
+SELECT 
+  (end_station_id) --from float to nvarchar
+FROM tripdata_202209;
+ALTER TABLE tripdata_202209 
+ALTER COLUMN end_station_id NVARCHAR (50);
+
+
+SELECT 
+  (end_station_id) --from float to nvarchar
+FROM tripdata_202211;
+ALTER TABLE tripdata_202211 
+ALTER COLUMN end_station_id NVARCHAR (50);
+
+SELECT 
+  (end_station_id) --from float to nvarchar
+FROM tripdata_202212;
+ALTER TABLE tripdata_202212 
+ALTER COLUMN end_station_id NVARCHAR (50);
+
+SELECT
+  (ended_at) --from float to datetime
+FROM tripdata_202210;
+ALTER TABLE tripdata_202210 
+ALTER COLUMN ended_at datetime;
+
+SELECT 
+  (ended_at) --from nvarchar to datetime
+FROM tripdata_202211;
+ALTER TABLE tripdata_202211 
+ALTER COLUMN ended_at datetime;
+
+SELECT 
+  (ended_at) --from nvarchar to datetime
+FROM tripdata_202212;
+ALTER TABLE tripdata_202212 
+ALTER COLUMN ended_at datetime;
+
+SELECT 
+  (start_station_id) --from float to nvarchar
+FROM tripdata_202204;
+ALTER TABLE tripdata_202204 
+ALTER COLUMN start_station_id nvarchar(50);
+
+SELECT 
+  (start_station_id) --from float to nvarchar
+FROM tripdata_202207;
+ALTER TABLE tripdata_202207 
+ALTER COLUMN start_station_id nvarchar(50);
+
+SELECT 
+  (start_station_id) --from float to nvarchar
+FROM tripdata_202210;
+ALTER TABLE tripdata_202210
+ALTER COLUMN start_station_id nvarchar(50);
+
+SELECT 
+  (start_station_id) --from float to nvarchar
+FROM tripdata_202211;
+ALTER TABLE tripdata_202211
+ALTER COLUMN start_station_id nvarchar(50);
+
+SELECT 
+  started_at) --from float to datettime
+FROM tripdata_202210;
+ALTER TABLE tripdata_202204 
+ALTER COLUMN started_at datetime;
+
+SELECT 
+  (started_at) --from nvarchar to datettime
+FROM tripdata_202211;
+ALTER TABLE tripdata_202211 
+ALTER COLUMN started_at datetime;
+
+SELECT 
+  (started_at) --from nvarchar to datettime
+FROM tripdata_202212;
+ALTER TABLE tripdata_202212 
+ALTER COLUMN started_at datetime;
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+--Adding “ride_length.” feild
+
+--202201
+SELECT
+  DATEDIFF(minute, started_at, ended_at) AS ride_length
+FROM tripdata_202201;
+ALTER TABLE tripdata_202201
+ADD ride_length int;
+UPDATE tripdata_202201
+SET ride_length = DATEDIFF(minute, started_at, ended_at);
+
+--202202
+SELECT
+  DATEDIFF(minute, started_at, ended_at) AS ride_length
+FROM tripdata_202202;
+ALTER TABLE tripdata_202202
+ADD ride_length int;
+UPDATE tripdata_202202
+SET ride_length = DATEDIFF(minute, started_at, ended_at);
+
+--202203
+SELECT
+  DATEDIFF(minute, started_at, ended_at) AS ride_length
+FROM tripdata_202203;
+ALTER TABLE tripdata_202203
+ADD ride_length int;
+UPDATE tripdata_202203
+SET ride_length = DATEDIFF(minute, started_at, ended_at);
+
+--202204
+SELECT
+  DATEDIFF(minute, started_at, ended_at) AS ride_length
+FROM tripdata_202204;
+ALTER TABLE tripdata_202204
+ADD ride_length int;
+UPDATE tripdata_202204
+SET ride_length = DATEDIFF(minute, started_at, ended_at);
+
+--202205
+SELECT
+  DATEDIFF(minute, started_at, ended_at) AS ride_length
+FROM tripdata_202205;
+ALTER TABLE tripdata_202205
+ADD ride_length int;
+UPDATE tripdata_202205
+SET ride_length = DATEDIFF(minute, started_at, ended_at);
+
+--202206
+SELECT
+  DATEDIFF(minute, started_at, ended_at) AS ride_length
+FROM tripdata_202206;
+ALTER TABLE tripdata_202206
+ADD ride_length int;
+UPDATE tripdata_202206
+SET ride_length = DATEDIFF(minute, started_at, ended_at);
+
+--202207
+SELECT
+  DATEDIFF(minute, started_at, ended_at) AS ride_length
+FROM tripdata_202207;
+ALTER TABLE tripdata_202207
+ADD ride_length int;
+UPDATE tripdata_202207
+SET ride_length = DATEDIFF(minute, started_at, ended_at);
+
+--202208
+SELECT
+  DATEDIFF(minute, started_at, ended_at) AS ride_length
+FROM tripdata_202208;
+ALTER TABLE tripdata_202208
+ADD ride_length int;
+UPDATE tripdata_202208
+SET ride_length = DATEDIFF(minute, started_at, ended_at);
+
+--202209
+SELECT
+  DATEDIFF(minute, started_at, ended_at) AS ride_length
+FROM tripdata_202209;
+ALTER TABLE tripdata_202209
+ADD ride_length int;
+UPDATE tripdata_202209
+SET ride_length = DATEDIFF(minute, started_at, ended_at);
+
+--202210
+SELECT
+  DATEDIFF(minute, started_at, ended_at) AS ride_length
+FROM tripdata_202210;
+ALTER TABLE tripdata_202210
+ADD ride_length int;
+UPDATE tripdata_202210
+SET ride_length = DATEDIFF(minute, started_at, ended_at);
+
+--202211
+SELECT
+  DATEDIFF(minute, started_at, ended_at) AS ride_length
+FROM tripdata_202211;
+ALTER TABLE tripdata_202211
+ADD ride_length int;
+UPDATE tripdata_202211
+SET ride_length = DATEDIFF(minute, started_at, ended_at);
+
+--202212
+SELECT
+  DATEDIFF(minute, started_at, ended_at) AS ride_length
+FROM tripdata_202212;
+ALTER TABLE tripdata_202212
+ADD ride_length int;
+UPDATE tripdata_202212
+SET ride_length = DATEDIFF(minute, started_at, ended_at);
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
+--Splitting Date and Time at Start_at field
+
+--202201
+ALTER TABLE tripdata_202201
+ADD started_at_ConvertedDate date;
+UPDATE tripdata_202201
+SET started_at_ConvertedDate = CONVERT(date, started_at);
+
+--202202
+ALTER TABLE tripdata_202202
+ADD started_at_ConvertedDate date;
+UPDATE tripdata_202202
+SET started_at_ConvertedDate = CONVERT(date, started_at);
+
+--202203
+ALTER TABLE tripdata_202201
+ADD started_at_ConvertedDate date;
+UPDATE tripdata_202201
+SET started_at_ConvertedDate = CONVERT(date, started_at);
+
+--202201
+ALTER TABLE tripdata_202203
+ADD started_at_ConvertedDate date;
+UPDATE tripdata_202203
+SET started_at_ConvertedDate = CONVERT(date, started_at);
+
+--202204
+ALTER TABLE tripdata_202204
+ADD started_at_ConvertedDate date;
+UPDATE tripdata_202204
+SET started_at_ConvertedDate = CONVERT(date, started_at);
+
+--202205
+ALTER TABLE tripdata_202205
+ADD started_at_ConvertedDate date;
+UPDATE tripdata_202205
+SET started_at_ConvertedDate = CONVERT(date, started_at);
+
+--202206
+ALTER TABLE tripdata_202206
+ADD started_at_ConvertedDate date;
+UPDATE tripdata_202206
+SET started_at_ConvertedDate = CONVERT(date, started_at);
+
+--202207
+ALTER TABLE tripdata_202207
+ADD started_at_ConvertedDate date;
+UPDATE tripdata_202207
+SET started_at_ConvertedDate = CONVERT(date, started_at);
+
+--202208
+ALTER TABLE tripdata_202208
+ADD started_at_ConvertedDate date;
+UPDATE tripdata_202208
+SET started_at_ConvertedDate = CONVERT(date, started_at);
+
+--202209
+ALTER TABLE tripdata_202209
+ADD started_at_ConvertedDate date;
+UPDATE tripdata_202209
+SET started_at_ConvertedDate = CONVERT(date, started_at);
+
+--202210
+ALTER TABLE tripdata_202210
+ADD started_at_ConvertedDate date;
+UPDATE tripdata_202210
+SET started_at_ConvertedDate = CONVERT(date, started_at);
+
+--202211
+ALTER TABLE tripdata_202211
+ADD started_at_ConvertedDate date;
+UPDATE tripdata_202211
+SET started_at_ConvertedDate = CONVERT(date, started_at);
+
+--202212
+ALTER TABLE tripdata_202212
+ADD started_at_ConvertedDate date;
+UPDATE tripdata_202212
+SET started_at_ConvertedDate = CONVERT(date, started_at);
+
+--Splitting Date and Time if ended_at field
+
+--202201
+ALTER TABLE tripdata_202201
+ADD ended_at_ConvertedTime time;
+UPDATE tripdata_202201
+SET ended_at_ConvertedDate = CONVERT(date, ended_at);
+
+--202202
+ALTER TABLE tripdata_202202
+ADD ended_at_ConvertedTime time;
+UPDATE tripdata_202202
+SET ended_at_ConvertedDate = CONVERT(date, ended_at);
+
+--202203
+ALTER TABLE tripdata_202203
+ADD ended_at_ConvertedTime time;
+UPDATE tripdata_202203
+SET ended_at_ConvertedDate = CONVERT(date, ended_at);
+
+--202204
+ALTER TABLE tripdata_202204
+ADD ended_at_ConvertedTime time;
+UPDATE tripdata_202204
+SET ended_at_ConvertedDate = CONVERT(date, ended_at);
+
+--202205
+ALTER TABLE tripdata_202205
+ADD ended_at_ConvertedTime time;
+UPDATE tripdata_202205
+SET ended_at_ConvertedDate = CONVERT(date, ended_at);
+
+--202206
+ALTER TABLE tripdata_202201
+ADD ended_at_ConvertedTime time;
+UPDATE tripdata_202201
+SET ended_at_ConvertedDate = CONVERT(date, ended_at);
+
+--202201
+ALTER TABLE tripdata_202206
+ADD ended_at_ConvertedTime time;
+UPDATE tripdata_202206
+SET ended_at_ConvertedDate = CONVERT(date, ended_at);
+
+--202207
+ALTER TABLE tripdata_202207
+ADD ended_at_ConvertedTime time;
+UPDATE tripdata_202207
+SET ended_at_ConvertedDate = CONVERT(date, ended_at);
+
+--202208
+ALTER TABLE tripdata_202208
+ADD ended_at_ConvertedTime time;
+UPDATE tripdata_202208
+SET ended_at_ConvertedDate = CONVERT(date, ended_at);
+
+--202209
+ALTER TABLE tripdata_202209
+ADD ended_at_ConvertedTime time;
+UPDATE tripdata_202209
+SET ended_at_ConvertedDate = CONVERT(date, ended_at);
+
+--202210
+ALTER TABLE tripdata_202210
+ADD ended_at_ConvertedTime time;
+UPDATE tripdata_202210
+SET ended_at_ConvertedDate = CONVERT(date, ended_at);
+
+--202211
+ALTER TABLE tripdata_202211
+ADD ended_at_ConvertedTime time;
+UPDATE tripdata_202211
+SET ended_at_ConvertedDate = CONVERT(date, ended_at);
+
+--202212
+ALTER TABLE tripdata_202212
+ADD ended_at_ConvertedTime time;
+UPDATE tripdata_202212
+SET ended_at_ConvertedDate = CONVERT(date, ended_at);
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+--Adding “day_of_week,” field
+
+
+--202201
+ALTER TABLE tripdata_202201
+ADD day_of_week int;
+UPDATE tripdata_202201
+SET day_of_week = DATEPART(WEEKDAY, started_at);
+
+--202202
+ALTER TABLE tripdata_202202
+ADD day_of_week int;
+UPDATE tripdata_202202
+SET day_of_week = DATEPART(WEEKDAY, started_at);
+
+--202203
+ALTER TABLE tripdata_202203
+ADD day_of_week int;
+UPDATE tripdata_202203
+SET day_of_week = DATEPART(WEEKDAY, started_at);
+
+--202204
+ALTER TABLE tripdata_202204
+ADD day_of_week int;
+UPDATE tripdata_202204
+SET day_of_week = DATEPART(WEEKDAY, started_at);
+
+--202205
+ALTER TABLE tripdata_202205
+ADD day_of_week int;
+UPDATE tripdata_202205
+SET day_of_week = DATEPART(WEEKDAY, started_at);
+
+--202206
+ALTER TABLE tripdata_202206
+ADD day_of_week int;
+UPDATE tripdata_202206
+SET day_of_week = DATEPART(WEEKDAY, started_at);
+
+--202207
+ALTER TABLE tripdata_202207
+ADD day_of_week int;
+UPDATE tripdata_202207
+SET day_of_week = DATEPART(WEEKDAY, started_at);
+
+--202208
+ALTER TABLE tripdata_202208
+ADD day_of_week int;
+UPDATE tripdata_202208
+SET day_of_week = DATEPART(WEEKDAY, started_at);
+
+
+--202209
+ALTER TABLE tripdata_202209
+ADD day_of_week int;
+UPDATE tripdata_202209
+SET day_of_week = DATEPART(WEEKDAY, started_at);
+
+--202210
+ALTER TABLE tripdata_202210
+ADD day_of_week int;
+UPDATE tripdata_202210
+SET day_of_week = DATEPART(WEEKDAY, started_at);
+
+--202211
+ALTER TABLE tripdata_202211
+ADD day_of_week int;
+UPDATE tripdata_202211
+SET day_of_week = DATEPART(WEEKDAY, started_at);
+
+--202212
+ALTER TABLE tripdata_202212
+ADD day_of_week int;
+UPDATE tripdata_202212
+SET day_of_week = DATEPART(WEEKDAY, started_at);
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+SELECT * 
+FROM tripdata_202204
+ORDER BY ride_id, started_at, ended_at;
+
+SELECT ride_id, started_at, ended_at, COUNT(*) as duplicate_count
+FROM tripdata_202211
+GROUP BY ride_id, started_at, ended_at
+HAVING COUNT(*) > 1;
+
+WITH RowNumCTE AS (
+  SELECT *,
+    ROW_NUMBER() OVER (
+	PARTITION BY ride_id,
+	             started_at, 
+	             ended_at,
+				 start_station_name
+				 ORDER BY 
+				   ride_id
+				   ) row_num
+  FROM tripdata_202211
+)
+
+/*DELETE
+FROM RowNumCTE
+WHERE row_num > 1;*/
+
+SELECT *
+FROM RowNumCTE
+WHERE row_num > 1
+ORDER BY started_at;
+
+--NO DUPLICATE RECORDS WERE FOUND.
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+--Adding "trip_route" column
+
+--202201
+SELECT ride_id, member_casual, start_station_name + ' to ' + end_station_name AS trip_route
+FROM tripdata_202201;
+
+ALTER TABLE tripdata_202201 -- Populate the trip_route column with the combined values of start_station_name and end_station_name
+ADD trip_route NVARCHAR(500);
+UPDATE tripdata_202201
+SET trip_route = start_station_name + ' to ' + end_station_name;
+
+select * from tripdata_202201
+
+--202202
+SELECT ride_id, member_casual, start_station_name + ' to ' + end_station_name AS trip_route
+FROM tripdata_202202;
+
+ALTER TABLE tripdata_202202 -- Populate the trip_route column with the combined values of start_station_name and end_station_name
+ADD trip_route NVARCHAR(500);
+UPDATE tripdata_202202
+SET trip_route = start_station_name + ' to ' + end_station_name;
+
+--202203
+SELECT ride_id, member_casual, start_station_name + ' to ' + end_station_name AS trip_route
+FROM tripdata_202203;
+
+ALTER TABLE tripdata_202203 -- Populate the trip_route column with the combined values of start_station_name and end_station_name
+ADD trip_route NVARCHAR(500);
+UPDATE tripdata_202203
+SET trip_route = start_station_name + ' to ' + end_station_name;
+
+--202204
+SELECT ride_id, member_casual, start_station_name + ' to ' + end_station_name AS trip_route
+FROM tripdata_202204;
+
+ALTER TABLE tripdata_202204 -- Populate the trip_route column with the combined values of start_station_name and end_station_name
+ADD trip_route NVARCHAR(500);
+UPDATE tripdata_202204
+SET trip_route = start_station_name + ' to ' + end_station_name;
+
+--202205
+SELECT ride_id, member_casual, start_station_name + ' to ' + end_station_name AS trip_route
+FROM tripdata_202205;
+
+ALTER TABLE tripdata_202205 -- Populate the trip_route column with the combined values of start_station_name and end_station_name
+ADD trip_route NVARCHAR(500);
+UPDATE tripdata_202205
+SET trip_route = start_station_name + ' to ' + end_station_name;
+
+--202206
+SELECT ride_id, member_casual, start_station_name + ' to ' + end_station_name AS trip_route
+FROM tripdata_202206;
+
+ALTER TABLE tripdata_202206 -- Populate the trip_route column with the combined values of start_station_name and end_station_name
+ADD trip_route NVARCHAR(500);
+UPDATE tripdata_202206
+SET trip_route = start_station_name + ' to ' + end_station_name;
+
+--202207
+SELECT ride_id, member_casual, start_station_name + ' to ' + end_station_name AS trip_route
+FROM tripdata_202207;
+
+ALTER TABLE tripdata_202207 -- Populate the trip_route column with the combined values of start_station_name and end_station_name
+ADD trip_route NVARCHAR(500);
+UPDATE tripdata_202207
+SET trip_route = start_station_name + ' to ' + end_station_name;
+
+--202208
+SELECT ride_id, member_casual, start_station_name + ' to ' + end_station_name AS trip_route
+FROM tripdata_202208;
+
+ALTER TABLE tripdata_202208 -- Populate the trip_route column with the combined values of start_station_name and end_station_name
+ADD trip_route NVARCHAR(500);
+UPDATE tripdata_202208
+SET trip_route = start_station_name + ' to ' + end_station_name;
+
+--202209
+SELECT ride_id, member_casual, start_station_name + ' to ' + end_station_name AS trip_route
+FROM tripdata_202209;
+
+ALTER TABLE tripdata_202209 -- Populate the trip_route column with the combined values of start_station_name and end_station_name
+ADD trip_route NVARCHAR(500);
+UPDATE tripdata_202209
+SET trip_route = start_station_name + ' to ' + end_station_name;
+
+--202210
+SELECT ride_id, member_casual, start_station_name + ' to ' + end_station_name AS trip_route
+FROM tripdata_202210;
+
+ALTER TABLE tripdata_202210 -- Populate the trip_route column with the combined values of start_station_name and end_station_name
+ADD trip_route NVARCHAR(500);
+UPDATE tripdata_202210
+SET trip_route = start_station_name + ' to ' + end_station_name;
+
+--202211
+SELECT ride_id, member_casual, start_station_name + ' to ' + end_station_name AS trip_route
+FROM tripdata_202211;
+
+ALTER TABLE tripdata_202211 -- Populate the trip_route column with the combined values of start_station_name and end_station_name
+ADD trip_route NVARCHAR(500);
+UPDATE tripdata_202211
+SET trip_route = start_station_name + ' to ' + end_station_name;
+
+--202212
+SELECT ride_id, member_casual, start_station_name + ' to ' + end_station_name AS trip_route
+FROM tripdata_202212;
+
+ALTER TABLE tripdata_202212 -- Populate the trip_route column with the combined values of start_station_name and end_station_name
+ADD trip_route NVARCHAR(500);
+UPDATE tripdata_202212
+SET trip_route = start_station_name + ' to ' + end_station_name;
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+--Adding "peak_hours" column
+
+SELECT ride_id, member_casual, started_at + ' - ' + ended_at AS peak_hours
+FROM tripdata_202212;
+
+SELECT started_at,
+DATEPART(HOUR, started_at) AS peak_hours --finding the mode, we are interested in the hour(s) with the highest trip count.
+FROM tripdata_202201
+SELECT ended_at,
+DATEPART(HOUR, ended_at) AS peak_hours --finding the mode, we are interested in the hour(s) with the highest trip count.
+FROM tripdata_202201
