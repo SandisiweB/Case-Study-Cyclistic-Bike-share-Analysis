@@ -23,7 +23,8 @@ Cyclistic executive team: The detail-oriented executive team that will decide wh
 **Secondary shareholders:**
 Cyclistic marketing analytics team: A team of data analysts who are responsible for collecting, analyzing, and reporting data that helps guide Cyclistic marketing strategy. 
 
-The key business question:
+**The key business question:**
+
 Moreno has assigned me the first question to answer: How do annual members and casual riders use Cyclistic bikes differently?
 
 To answer the key business questions, I will follow the steps of the data analysis process: ask, prepare, process, analyze, share, and act
